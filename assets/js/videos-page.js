@@ -22,10 +22,10 @@ angular.module('brushfire_videosPage').controller('PageCtrl', [
 
     // Get the existing videos.
     $http.get('/video')
-     .then(function onSuccess(sailsResponse){
+      .then(function onSuccess(sailsResponse) {
         $scope.videos = sailsResponse.data;
       })
-      .catch(function onError(sailsResponse){
+      .catch(function onError(sailsResponse) {
 
         if (sailsResponse.data.status === '404') {
           return;
@@ -34,7 +34,7 @@ angular.module('brushfire_videosPage').controller('PageCtrl', [
         console.log("An unexpected error occurred: " + sailsResponse.data.statusText);
 
       })
-      .finally(function eitherWay(){
+      .finally(function eitherWay() {
         $scope.videosLoading = false;
       });
 
@@ -47,7 +47,7 @@ angular.module('brushfire_videosPage').controller('PageCtrl', [
      * (the binding from our form's "submit" event to this function is
      *  handled via `ng-submit="submitNewVideo($event)` in the HTML)
      */
-    
+
     $scope.submitNewVideo = function() {
 
       // A little "spin-lock" to prevent double-submission
@@ -98,20 +98,21 @@ angular.module('brushfire_videosPage').controller('PageCtrl', [
       $scope.busySubmittingVideo = true;
 
       $http.post('/video', {
-       title: _newVideo.title,
-       src: _newVideo.src
-     })
-    .then(function onSuccess(sailsResponse){
-       $scope.videos.unshift(_newVideo);
-    })
-    .catch(function onError(sailsResponse){  
-      console.log("An unexpected error occurred: " + sailsResponse.data.statusText);
-     })
-      .finally(function eitherWay(){
-        $scope.busySubmittingVideo = false;
-        $scope.newVideoTitle = '';
-        $scope.newVideoSrc = '';
-     });
+          title: _newVideo.title,
+          src: _newVideo.src
+        })
+        .then(function onSuccess(sailsResponse) {
+          console.log(sailsResponse);
+          $scope.videos.unshift(_newVideo);
+        })
+        .catch(function onError(sailsResponse) {
+          console.log("An unexpected error occurred: " + sailsResponse.data.statusText);
+        })
+        .finally(function eitherWay() {
+          $scope.busySubmittingVideo = false;
+          $scope.newVideoTitle = '';
+          $scope.newVideoSrc = '';
+        });
 
     };
   }
